@@ -18,7 +18,7 @@ class ListViewModel(
     get() = _movieList
 
   init {
-    viewModelScope.launch(Dispatchers.IO) {
+    viewModelScope.launch {
       _movieList.value = repo.getAllMovie()
     }
   }

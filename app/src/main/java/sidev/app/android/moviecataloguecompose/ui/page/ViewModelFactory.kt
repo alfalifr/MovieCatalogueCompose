@@ -3,6 +3,7 @@ package sidev.app.android.moviecataloguecompose.ui.page
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import sidev.app.android.moviecataloguecompose.di.ViewModelDi
+import sidev.app.android.moviecataloguecompose.ui.page.detail.DetailViewModel
 import sidev.app.android.moviecataloguecompose.ui.page.list.ListViewModel
 import java.lang.IllegalArgumentException
 
@@ -19,6 +20,7 @@ class ViewModelFactory: ViewModelProvider.Factory {
   @Suppress("UNCHECKED_CAST")
   override fun <T : ViewModel?> create(modelClass: Class<T>): T = (when {
     modelClass.isAssignableFrom(ListViewModel::class.java) -> ViewModelDi.src.list()
+    modelClass.isAssignableFrom(DetailViewModel::class.java) -> ViewModelDi.src.detail()
     else -> throw IllegalArgumentException("Unknown ViewModel Class of '$modelClass'")
   }) as T
 }
