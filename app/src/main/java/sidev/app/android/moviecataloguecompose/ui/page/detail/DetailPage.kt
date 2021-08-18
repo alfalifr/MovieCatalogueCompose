@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -25,19 +26,21 @@ fun DetailPage(movieId: Int) {
     val detail = vm.movieDetail.observeAsState().value
 
     if(detail != null) {
-      Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-      ) {
-        Image(
-          painter = rememberImagePainter(data = detail.movie.posterUrl),
-          contentDescription = null,
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(text = detail.movie.title)
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(text = detail.movie.release.toString())
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(text = detail.desc)
+      Card {
+        Column(
+          horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+          Image(
+            painter = rememberImagePainter(data = detail.movie.posterUrl),
+            contentDescription = null,
+          )
+          Spacer(modifier = Modifier.height(10.dp))
+          Text(text = detail.movie.title)
+          Spacer(modifier = Modifier.height(10.dp))
+          Text(text = detail.movie.release.toString())
+          Spacer(modifier = Modifier.height(10.dp))
+          Text(text = detail.desc)
+        }
       }
     } else {
       CircularProgressIndicator()
