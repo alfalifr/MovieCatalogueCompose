@@ -38,9 +38,12 @@ fun MovieCatalogueComposeTheme(
     LightColorPalette
   }
 
+  val typography = if(darkTheme) DarkTypography
+    else LightTypography
+
   MaterialTheme(
     colors = colors,
-    typography = Typography,
+    typography = typography,
     shapes = Shapes,
     content = content
   )
