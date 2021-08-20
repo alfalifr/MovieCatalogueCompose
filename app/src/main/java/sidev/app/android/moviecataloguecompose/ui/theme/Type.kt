@@ -12,12 +12,13 @@ import androidx.compose.ui.unit.sp
 
 // Set of Material typography styles to start with
 val LightTypography = Typography(
+  defaultFontFamily = Nunito,
   body1 = TextStyle(
-    fontFamily = FontFamily.Default,
+    //fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Normal,
     fontSize = 16.sp,
     color = Color.Black,
-  )
+  ),
   /* Other default text styles to override
     button = TextStyle(
         fontFamily = FontFamily.Default,
@@ -33,8 +34,9 @@ val LightTypography = Typography(
 )
 
 val DarkTypography = Typography(
+  defaultFontFamily = Nunito,
   body1 = TextStyle(
-    fontFamily = FontFamily.Default,
+    //fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Normal,
     fontSize = 16.sp,
     color = Color.White,
@@ -80,6 +82,7 @@ fun getStdTextStyle(
   factor: Double = Size0,
   isBold: Boolean = false,
   isItalic: Boolean = false,
+  fontFamily: FontFamily? = Nunito,
 ): TextStyle {
   val size = MaterialTheme.typography.body1.fontSize * factor
   return TextStyle(
@@ -87,6 +90,7 @@ fun getStdTextStyle(
     fontWeight = if(isBold) FontWeight.Bold else null,
     fontStyle = if(isItalic) FontStyle.Italic else null,
     color = MaterialTheme.typography.body1.color,
+    fontFamily = fontFamily,
   )
 }
 
