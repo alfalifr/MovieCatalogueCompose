@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.github.javafaker.Faker
+import sidev.app.android.moviecataloguecompose.core.domain.model.Crew
 import sidev.app.android.moviecataloguecompose.ui.page.ViewModelFactory
 import sidev.app.android.moviecataloguecompose.ui.theme.GreenLight
 import sidev.app.android.moviecataloguecompose.ui.theme.Red
@@ -90,3 +91,8 @@ val BoxWithConstraintsScope.maxSize
     width = maxWidth.value,
     height = maxHeight.value,
   )
+
+//TODO: ubah logika nya
+fun List<Crew>.getDirectorNames(): List<String> = map { it.name }
+//TODO: ubah logika nya
+fun List<Crew>.getProducerNames(): List<String> = map { it.name }

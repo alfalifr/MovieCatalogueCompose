@@ -37,7 +37,7 @@ import sidev.app.android.moviecataloguecompose.util.*
 
 
 @Composable
-fun MainHeader(
+fun DetailMainHeader(
   detail: MovieDetail?,
   parentSize: Size,
 ) {
@@ -51,7 +51,8 @@ fun MainHeader(
     Row(
       modifier = Modifier
         .align(Alignment.BottomStart)
-        .padding(10.dp),
+        .padding(vertical = 10.dp,)
+        .padding(start = 10.dp),
       verticalAlignment = Alignment.Bottom,
     ) {
       val mainPosterWidth = parentSize.width /3.5
@@ -65,13 +66,15 @@ fun MainHeader(
           Text(
             text = movie.title,
             style = getStdBoldTextStyle(factor = Size3),
+            modifier = Modifier.padding(end = 10.dp),
           )
           VerticalSpacer(height = 15.dp)
-          MainHeaderRatingRow(detail = detail)
+          MainHeaderRatingRow(
+            detail = detail,
+            modifier = Modifier.padding(end = 10.dp),
+          )
           VerticalSpacer(height = 10.dp)
           GenreList(genres = detail.genres)
-        }
-        detail?.movie?.title?.let {
         }
       }
     }
@@ -175,9 +178,13 @@ private fun MainPoster(
 }
 
 @Composable
-private fun MainHeaderRatingRow(detail: MovieDetail) {
+private fun MainHeaderRatingRow(
+  detail: MovieDetail,
+  modifier: Modifier = Modifier,
+) {
   Row(
-    verticalAlignment = Alignment.CenterVertically
+    verticalAlignment = Alignment.CenterVertically,
+    modifier = modifier,
   ) {
     Icon(
       imageVector = Icons.Filled.Star,
@@ -206,9 +213,13 @@ private fun MainHeaderRatingRow(detail: MovieDetail) {
 }
 
 @Composable
-private fun GenreList(genres: List<String>) {
+private fun GenreList(
+  genres: List<String>,
+  modifier: Modifier = Modifier,
+) {
   LazyRow(
     horizontalArrangement = Arrangement.spacedBy(10.dp),
+    modifier = modifier,
   ) {
     items(genres) {
       Card(

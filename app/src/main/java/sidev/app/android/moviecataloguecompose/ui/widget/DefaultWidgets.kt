@@ -19,6 +19,7 @@ fun DefaultLoading(
 ) {
   Column(
     horizontalAlignment = Alignment.CenterHorizontally,
+    verticalArrangement = Arrangement.Center,
     modifier = modifier,
   ) {
     CircularProgressIndicator()
