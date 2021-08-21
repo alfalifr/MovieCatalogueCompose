@@ -21,10 +21,7 @@ import androidx.compose.ui.unit.dp
 import sidev.app.android.moviecataloguecompose.core.domain.model.Cast
 import sidev.app.android.moviecataloguecompose.core.domain.model.ImgData
 import sidev.app.android.moviecataloguecompose.core.domain.model.MovieDetail
-import sidev.app.android.moviecataloguecompose.ui.theme.Size1
-import sidev.app.android.moviecataloguecompose.ui.theme.Size2
-import sidev.app.android.moviecataloguecompose.ui.theme.getStdBoldItalicTextStyle
-import sidev.app.android.moviecataloguecompose.ui.theme.getStdBoldTextStyle
+import sidev.app.android.moviecataloguecompose.ui.theme.*
 import sidev.app.android.moviecataloguecompose.ui.widget.DefaultLoading
 import sidev.app.android.moviecataloguecompose.ui.widget.Img
 import sidev.app.android.moviecataloguecompose.ui.widget.VerticalSpacer
@@ -40,7 +37,9 @@ fun DetailContentSection(detail: MovieDetail?) {
       if(detail.tagline != null) {
         Text(
           text = detail.tagline,
-          style = getStdBoldItalicTextStyle(Size2),
+          style = getStdBoldItalicTextStyle(Size2).copy(
+            color = TransOppositeDarkColor2
+          ),
           modifier = Modifier.padding(
             horizontal = 10.dp,
           ),
@@ -197,6 +196,7 @@ private fun CastItem(
         modifier = Modifier.fillMaxWidth(),
         text = data.character,
         textAlign = TextAlign.Start,
+        color = TransOppositeDarkColor2,
       )
     }
   }
