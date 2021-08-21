@@ -14,6 +14,8 @@ import sidev.app.android.moviecataloguecompose.core.domain.model.Crew
 import sidev.app.android.moviecataloguecompose.ui.page.ViewModelFactory
 import sidev.app.android.moviecataloguecompose.ui.theme.GreenLight
 import sidev.app.android.moviecataloguecompose.ui.theme.Red
+import java.text.SimpleDateFormat
+import java.util.*
 
 val faker = Faker()
 
@@ -98,3 +100,11 @@ val BoxWithConstraintsScope.maxSize
 fun List<Crew>.getDirectorNames(): List<String> = map { it.name }
 //TODO: ubah logika nya
 fun List<Crew>.getProducerNames(): List<String> = map { it.name }
+
+
+fun Date.stdFormat(
+  isMonthLong: Boolean = true,
+): String {
+  val sdf = SimpleDateFormat("dd ${if(isMonthLong) "MMMM" else "MMM"} yyyy", Locale.ENGLISH)
+  return sdf.format(this)
+}

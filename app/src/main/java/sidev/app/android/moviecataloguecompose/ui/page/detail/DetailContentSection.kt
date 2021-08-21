@@ -27,6 +27,7 @@ import sidev.app.android.moviecataloguecompose.ui.widget.Img
 import sidev.app.android.moviecataloguecompose.ui.widget.VerticalSpacer
 import sidev.app.android.moviecataloguecompose.util.getDirectorNames
 import sidev.app.android.moviecataloguecompose.util.getProducerNames
+import sidev.app.android.moviecataloguecompose.util.stdFormat
 import sidev.app.android.moviecataloguecompose.util.stdLandscapeMoviePosterRatio
 
 @Composable
@@ -77,7 +78,7 @@ private fun Info(
         withStyle(titleStyle) {
           append("Release date:")
         }
-        append(" ${data.movie.date}")
+        append(" ${data.movie.date.stdFormat()}")
       }
     )
     VerticalSpacer(height = 5.dp)

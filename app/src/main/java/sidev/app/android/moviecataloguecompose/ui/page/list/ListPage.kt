@@ -33,6 +33,7 @@ import sidev.app.android.moviecataloguecompose.ui.widget.DefaultLoading
 import sidev.app.android.moviecataloguecompose.ui.widget.Img
 import sidev.app.android.moviecataloguecompose.ui.widget.ScoreItem
 import sidev.app.android.moviecataloguecompose.util.defaulViewModel
+import sidev.app.android.moviecataloguecompose.util.stdFormat
 import sidev.app.android.moviecataloguecompose.util.stdPortraitMoviePosterRatio
 
 @Composable
@@ -116,7 +117,7 @@ fun MovieItem(
         )
       )
       Text(
-        text = data.date.toString(),
+        text = data.date.stdFormat(false),
         modifier = Modifier.padding(
           top = 10.dp,
           start = 10.dp,
