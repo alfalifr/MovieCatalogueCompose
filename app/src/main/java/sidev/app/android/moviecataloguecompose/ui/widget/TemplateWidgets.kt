@@ -1,5 +1,6 @@
 package sidev.app.android.moviecataloguecompose.ui.widget
 
+import android.view.Window
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape

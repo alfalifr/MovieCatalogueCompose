@@ -13,8 +13,8 @@ data class MovieDetailResponse(
   )
   val name: String,
   val tagline: String?,
-  val overview: String,
-  val homepage: String,
+  val overview: String?,
+  val homepage: String?,
   val poster_path: String?,
   val backdrop_path: String?,
   @SerializedName(

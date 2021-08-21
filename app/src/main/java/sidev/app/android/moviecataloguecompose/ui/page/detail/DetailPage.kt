@@ -5,6 +5,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
@@ -19,8 +20,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.accompanist.insets.*
 import sidev.app.android.moviecataloguecompose.core.domain.model.MovieDetail
 import sidev.app.android.moviecataloguecompose.ui.theme.*
+import sidev.app.android.moviecataloguecompose.ui.widget.VerticalSpacer
 import sidev.app.android.moviecataloguecompose.util.Const
 import sidev.app.android.moviecataloguecompose.util.defaulViewModel
 import sidev.app.android.moviecataloguecompose.util.maxSize
@@ -32,7 +35,8 @@ fun DetailPage(
   navController: NavController,
   viewModel: DetailViewModel = defaulViewModel()
 ) {
-  MovieCatalogueComposeTheme {
+  AppTheme { systemPadding ->
+
     viewModel.movieId.value = movieId
     viewModel.movieType.value = movieType
 
@@ -45,12 +49,17 @@ fun DetailPage(
         parentSize = maxSize.also {
           Log.e("TAG", "DetailPage: constraints= $constraints maxSize= $maxSize", )
         },
+        systemPadding = systemPadding,
       )
+
+      val topPadding = systemPadding.calculateTopPadding()
+
       Box(
         modifier = Modifier
-          .size(90.dp)
           .align(Alignment.TopStart)
-          .padding(15.dp),
+          .padding(15.dp)
+          .padding(top = topPadding)
+          .size(60.dp),
       ) {
         Image(
           painter = ColorPainter(
@@ -100,6 +109,7 @@ fun DetailPage(
 private fun DetailMainLayout(
   detail: MovieDetail?,
   parentSize: Size,
+  systemPadding: PaddingValues,
 ) {
   Column(
     modifier = Modifier
@@ -116,6 +126,7 @@ private fun DetailMainLayout(
       parentSize = parentSize,
     )
     DetailContentSection(detail = detail)
+    VerticalSpacer(height = systemPadding.calculateBottomPadding())
   }
 }
 

@@ -35,7 +35,7 @@ fun DetailContentSection(detail: MovieDetail?) {
   if(detail != null) {
     Column {
       VerticalSpacer(height = 15.dp)
-      if(detail.tagline != null) {
+      if(detail.tagline?.isNotBlank() == true) {
         Text(
           text = detail.tagline,
           style = getStdBoldItalicTextStyle(Size1).copy(
@@ -48,8 +48,10 @@ fun DetailContentSection(detail: MovieDetail?) {
         VerticalSpacer(height = 20.dp)
       }
       Info(data = detail)
-      VerticalSpacer(height = 20.dp)
-      Overview(text = detail.overview)
+      if(detail.overview?.isNotBlank() == true) {
+        VerticalSpacer(height = 20.dp)
+        Overview(text = detail.overview)
+      }
       VerticalSpacer(height = 20.dp)
       Cast(dataList = detail.casts)
       VerticalSpacer(height = 20.dp)
@@ -83,33 +85,45 @@ private fun Info(
         }
       )
     }
-    VerticalSpacer(height = 5.dp)
-    Text(
-      buildAnnotatedString {
-        withStyle(titleStyle) {
-          append("Directors:")
-        }
-        append(" ${data.crews.getDirectorNames().joinToString()}")
+    data.crews.getDirectorNames().also { list ->
+      if(list.isNotEmpty()) {
+        VerticalSpacer(height = 5.dp)
+        Text(
+          buildAnnotatedString {
+            withStyle(titleStyle) {
+              append("Directors:")
+            }
+            append(" ${list.joinToString()}")
+          }
+        )
       }
-    )
-    VerticalSpacer(height = 5.dp)
-    Text(
-      buildAnnotatedString {
-        withStyle(titleStyle) {
-          append("Producers:")
-        }
-        append(" ${data.crews.getProducerNames().joinToString()}")
+    }
+    data.crews.getProducerNames().also { list ->
+      if(list.isNotEmpty()) {
+        VerticalSpacer(height = 5.dp)
+        Text(
+          buildAnnotatedString {
+            withStyle(titleStyle) {
+              append("Producers:")
+            }
+            append(" ${list.joinToString()}")
+          }
+        )
       }
-    )
-    VerticalSpacer(height = 5.dp)
-    Text(
-      buildAnnotatedString {
-        withStyle(titleStyle) {
-          append("Homepage:")
-        }
-        append(" ${data.homepage}")
+    }
+    data.homepage?.also { homepage ->
+      if(homepage.isNotBlank()) {
+        VerticalSpacer(height = 5.dp)
+        Text(
+          buildAnnotatedString {
+            withStyle(titleStyle) {
+              append("Homepage:")
+            }
+            append(" $homepage")
+          }
+        )
       }
-    )
+    }
   }
 }
 

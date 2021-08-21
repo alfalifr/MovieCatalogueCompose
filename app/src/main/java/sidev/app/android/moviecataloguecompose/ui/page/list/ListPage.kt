@@ -19,7 +19,10 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.rememberInsetsPaddingValues
 import sidev.app.android.moviecataloguecompose.core.data.dummyMovieList
 import sidev.app.android.moviecataloguecompose.core.domain.model.Movie
 import sidev.app.android.moviecataloguecompose.ui.theme.*
@@ -37,10 +40,17 @@ fun ListPage(
   viewModel: ListViewModel = defaulViewModel(),
   onItemClick: ((Movie) -> Unit)? = null
 ) {
-  MovieCatalogueComposeTheme {
+  AppTheme { systemPadding ->
+
     viewModel.movieType.value = movieType
+
+    val topPadding = systemPadding.calculateTopPadding()
+    val bottomPadding = systemPadding.calculateBottomPadding()
+
     MovieList(
       viewModel = viewModel,
+      topPadding = topPadding,
+      bottomPadding = bottomPadding,
       onItemClick = onItemClick,
     )
   }
@@ -49,11 +59,17 @@ fun ListPage(
 @Composable
 fun MovieList(
   viewModel: ListViewModel = defaulViewModel(),
+  topPadding: Dp? = null,
+  bottomPadding: Dp? = null,
   onItemClick: ((Movie) -> Unit)? = null
 ) {
   val dataList = viewModel.movieList.observeAsState().value
   if(dataList != null) {
     LazyVerticalGrid(
+      contentPadding = PaddingValues(
+        top = topPadding ?: 0.dp,
+        bottom = bottomPadding ?: 0.dp,
+      ),
       cells = GridCells.Fixed(2),
       modifier = Modifier.fillMaxHeight(),
     ) {

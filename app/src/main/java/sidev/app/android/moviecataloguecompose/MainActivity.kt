@@ -3,18 +3,18 @@ package sidev.app.android.moviecataloguecompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
+import com.google.accompanist.insets.statusBarsPadding
 import sidev.app.android.moviecataloguecompose.ui.nav.Navigation
-import sidev.app.android.moviecataloguecompose.ui.page.list.MovieList
-import sidev.app.android.moviecataloguecompose.ui.theme.MovieCatalogueComposeTheme
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
+    // This enable us to draw behing system overlay
+    WindowCompat.setDecorFitsSystemWindows(window, false)
+
     setContent {
       Navigation()
 /*
