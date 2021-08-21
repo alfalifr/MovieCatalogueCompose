@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import sidev.app.android.moviecataloguecompose.core.domain.model.ImgData
 import sidev.app.android.moviecataloguecompose.core.domain.model.MovieDetail
@@ -65,7 +66,9 @@ fun DetailMainHeader(
         detail?.movie?.let { movie ->
           Text(
             text = movie.title,
-            style = getStdBoldTextStyle(factor = Size3),
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis,
+            style = getStdBoldTextStyle(factor = Size2),
             modifier = Modifier.padding(end = 10.dp),
           )
           VerticalSpacer(height = 15.dp)
@@ -108,7 +111,7 @@ private fun MainBg(img: ImgData?, ) {
           Brush.verticalGradient(
             .0f to if(isSystemInDarkTheme()) BlackTrans2 else WhiteTrans2,
             //.4f to WhiteTrans2,
-            .4f to Color.Transparent,
+            .6f to Color.Transparent,
             startY = imgHeight.value,
             endY = imgHeight.value * .0f,
           )

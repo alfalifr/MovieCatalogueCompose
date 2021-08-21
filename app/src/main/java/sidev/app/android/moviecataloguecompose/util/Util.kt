@@ -1,5 +1,6 @@
 package sidev.app.android.moviecataloguecompose.util
 
+import android.util.Log
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Size
@@ -22,11 +23,12 @@ inline fun <reified T: ViewModel> defaulViewModel(): T =
 
 
 @Suppress("NAME_SHADOWING")
-fun <T> List<T>.randomSubList(minSize: Int = 0): List<T> {
+fun <T> List<T>.randomSubList(minSize: Int? = null): List<T> {
   val minSize = if(minSize in indices) minSize else 0
-  val firtsIndex = faker.random().nextInt(0, size-minSize)
-  val lastIndex = faker.random().nextInt(firtsIndex, size)
-  return subList(firtsIndex, lastIndex)
+  val firstIndex = faker.random().nextInt(minSize ?: 0, size-(minSize ?: 0))
+  val lastIndex = faker.random().nextInt(firstIndex +(minSize ?: 0), size)
+  Log.e("TAG", "randomSubList: minSize= $minSize firstIndex= $firstIndex lastIndex= $lastIndex", )
+  return subList(firstIndex, lastIndex)
 }
 
 fun <T> List<T>.getLoop(i: Int): T = this[i % size]

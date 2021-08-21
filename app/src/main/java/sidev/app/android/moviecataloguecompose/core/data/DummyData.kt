@@ -1,12 +1,56 @@
 package sidev.app.android.moviecataloguecompose.core.data
 
+import android.util.Log
+import com.github.javafaker.*
 import sidev.app.android.moviecataloguecompose.core.domain.model.*
+import sidev.app.android.moviecataloguecompose.core.domain.model.Company
 import sidev.app.android.moviecataloguecompose.util.Const
 import sidev.app.android.moviecataloguecompose.util.faker
 import sidev.app.android.moviecataloguecompose.util.getLoop
 import sidev.app.android.moviecataloguecompose.util.randomSubList
+import java.lang.RuntimeException
 
 //private val faker = Faker()
+
+object DummyConfig {
+  val maxMovieCount = 20
+
+  var currentMovie: Movie? = null
+}
+
+private val randomChars = listOf(
+  faker.dragonBall(),
+  faker.superhero(),
+  faker.lordOfTheRings(),
+  faker.aquaTeenHungerForce(),
+  faker.backToTheFuture(),
+  faker.starTrek(),
+  faker.zelda(),
+)
+fun getRandomCharName(): String = when(val rand = randomChars.random()) {
+  is DragonBall -> rand.character()
+  is Superhero -> rand.name()
+  is LordOfTheRings -> rand.character()
+  is AquaTeenHungerForce -> rand.character()
+  is BackToTheFuture -> rand.character()
+  is StarTrek -> rand.character()
+  is Zelda -> rand.character()
+  else -> throw RuntimeException(
+    "Something wrong, unknown type of random instace `${rand::class}`"
+  )
+}
+
+private val randomTagline = listOf(
+  faker.lorem(),
+  faker.yoda(),
+)
+fun getRandomTagline(): String = when(val rand = randomTagline.random()) {
+  is Lorem -> rand.words((3..10).random()).joinToString(separator = " ")
+  is Yoda -> rand.quote()
+  else -> throw RuntimeException(
+    "Something wrong, unknown type of random instace `${rand::class}`"
+  )
+}
 
 val movieTypes = listOf(
   Const.KEY_TV,
@@ -58,6 +102,20 @@ val dummyProfileImg = dummyProfileImgUrl.map {
   RemoteImg(it)
 }
 
+private val randomProfileUrl = listOf(
+  dummyProfileImgUrl,
+  faker.avatar(),
+)
+fun getRandomProfileUrl(): RemoteImg = RemoteImg(
+  when(val rand = randomProfileUrl.random()) {
+    is List<*> -> rand.random() as String
+    is Avatar -> rand.image()
+    else -> throw RuntimeException(
+      "Something wrong, unknown type of random instace `${rand::class}`"
+    )
+  }
+)
+
 val dummyImg = dummyImgUrl.map {
   RemoteImg(it)
 }
@@ -65,7 +123,7 @@ val dummyImg = dummyImgUrl.map {
 val dummyMovieList = List(20) {
   Movie(
     id = it,
-    title = "Title $it",
+    title = "#$it - ${faker.lorem().words((3..8).random()).joinToString(separator = " ")}",
     date = faker.date().birthday(),
     voteAverage = faker.random().nextDouble() * 100,
     voteCount = faker.random().nextInt(10_000),
@@ -73,6 +131,15 @@ val dummyMovieList = List(20) {
     type = movieTypes.random(),
   )
 }
+fun dummyMovie(id: Int = faker.random().nextInt(100)) = Movie(
+  id = id,
+  title = "#$id - ${faker.lorem().words((3..8).random()).joinToString(separator = " ")}",
+  date = faker.date().birthday(),
+  voteAverage = faker.random().nextDouble() * 100,
+  voteCount = faker.random().nextInt(10_000),
+  poster = dummyImg.getLoop(id),
+  type = movieTypes.random(),
+)
 
 val dummyCompanies = List(faker.random().nextInt(4, 14)) {
   Company(
@@ -81,40 +148,71 @@ val dummyCompanies = List(faker.random().nextInt(4, 14)) {
     logo = dummyCompanyLogo.random(),
   )
 }
+fun dummyCompany(id: Int = faker.random().nextInt(100)) = Company(
+  id = id,
+  name = faker.company().name(),
+  logo = dummyCompanyLogo.random(),
+)
 
-val dummyCast = List(faker.random().nextInt(6, 20)) {
+val dummyCast = List(faker.random().nextInt(10, 30)) {
   Cast(
     id = it,
-    name = faker.name().fullName(),
-    character = faker.superhero().name(),
-    profile = dummyProfileImg.random(),
+    name = faker.artist().name(),
+    character = getRandomCharName(),
+    profile = getRandomProfileUrl(),
   )
 }
+fun dummyCast(id: Int = faker.random().nextInt(100)) = Cast(
+  id = id,
+  name = faker.artist().name(),
+  character = getRandomCharName(),
+  profile = getRandomProfileUrl(),
+)
 
 val dummyCrew = List(faker.random().nextInt(8, 23)) {
   Crew(
     id = it,
     name = faker.name().fullName(),
-    profile = dummyProfileImg.random(),
+    profile = getRandomProfileUrl(),
     department = faker.job().position(),
   )
 }
+fun dummyCrew(id: Int = faker.random().nextInt(100)) = Crew(
+  id = id,
+  name = faker.name().fullName(),
+  profile = getRandomProfileUrl(),
+  department = faker.job().position(),
+)
 
 val dummyMovieDetailList = dummyMovieList.map {
   MovieDetail(
     movie = it,
-    tagline = faker.lorem().words(faker.random().nextInt(10)).joinToString(separator = " "),
+    tagline = getRandomTagline(),
     overview = faker.lorem().paragraphs(faker.random().nextInt(1, 3)).joinToString(separator = "\n\n"),
     homepage = faker.internet().url(),
     duration = faker.random().nextDouble() * faker.random().nextInt(1, 1000),
     genres = faker.lorem().words(faker.random().nextInt(10)),
-    productionCompanies = dummyCompanies.randomSubList(),
-    casts = dummyCast.randomSubList(),
-    crews = dummyCrew.randomSubList(),
+    productionCompanies = dummyCompanies.randomSubList(1),
+    casts = dummyCast.randomSubList(1),
+    crews = dummyCrew.randomSubList(1),
     posters = dummyImg.randomSubList(1),
     backdrops = dummyImg.randomSubList(1),
     logos = dummyImg.randomSubList(1),
   )
 }
+fun dummyMovieDetail(movie: Movie) = MovieDetail(
+  movie = movie,
+  tagline = getRandomTagline(),
+  overview = faker.lorem().paragraphs(faker.random().nextInt(1, 3)).joinToString(separator = "\n\n"),
+  homepage = faker.internet().url(),
+  duration = faker.random().nextDouble() * faker.random().nextInt(1, 1000),
+  genres = faker.lorem().words(faker.random().nextInt(10)),
+  productionCompanies = dummyCompanies.randomSubList(1),
+  casts = dummyCast.randomSubList(1),
+  crews = dummyCrew.randomSubList(1),
+  posters = dummyImg.randomSubList(1),
+  backdrops = dummyImg.randomSubList(1),
+  logos = dummyImg.randomSubList(1),
+)
 
 fun getDummyMovieDetail(id: Int): MovieDetail = dummyMovieDetailList.find { it.movie.id == id }!!

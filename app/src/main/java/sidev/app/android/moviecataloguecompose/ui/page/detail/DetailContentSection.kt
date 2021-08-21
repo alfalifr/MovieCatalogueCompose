@@ -1,5 +1,6 @@
 package sidev.app.android.moviecataloguecompose.ui.page.detail
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -12,11 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import sidev.app.android.moviecataloguecompose.core.domain.model.Cast
+import sidev.app.android.moviecataloguecompose.core.domain.model.ImgData
 import sidev.app.android.moviecataloguecompose.core.domain.model.MovieDetail
 import sidev.app.android.moviecataloguecompose.ui.theme.Size1
 import sidev.app.android.moviecataloguecompose.ui.theme.Size2
@@ -27,13 +30,14 @@ import sidev.app.android.moviecataloguecompose.ui.widget.Img
 import sidev.app.android.moviecataloguecompose.ui.widget.VerticalSpacer
 import sidev.app.android.moviecataloguecompose.util.getDirectorNames
 import sidev.app.android.moviecataloguecompose.util.getProducerNames
+import sidev.app.android.moviecataloguecompose.util.stdLandscapeMoviePosterRatio
 
 @Composable
 fun DetailContentSection(detail: MovieDetail?) {
   if(detail != null) {
     Column {
+      VerticalSpacer(height = 15.dp)
       if(detail.tagline != null) {
-        VerticalSpacer(height = 15.dp)
         Text(
           text = detail.tagline,
           style = getStdBoldItalicTextStyle(Size2),
@@ -41,14 +45,16 @@ fun DetailContentSection(detail: MovieDetail?) {
             horizontal = 10.dp,
           ),
         )
+        VerticalSpacer(height = 20.dp)
       }
-      VerticalSpacer(height = 15.dp)
       Info(data = detail)
-      VerticalSpacer(height = 15.dp)
+      VerticalSpacer(height = 20.dp)
       Overview(text = detail.overview)
-      VerticalSpacer(height = 15.dp)
+      VerticalSpacer(height = 20.dp)
       Cast(dataList = detail.casts)
-      VerticalSpacer(height = 15.dp)
+      VerticalSpacer(height = 20.dp)
+      Photos(imgList = detail.posters + detail.backdrops)
+      VerticalSpacer(height = 20.dp)
     }
   } else {
     DefaultLoading(
@@ -75,6 +81,7 @@ private fun Info(
         append(" ${data.movie.date}")
       }
     )
+    VerticalSpacer(height = 5.dp)
     Text(
       buildAnnotatedString {
         withStyle(titleStyle) {
@@ -83,6 +90,7 @@ private fun Info(
         append(" ${data.crews.getDirectorNames().joinToString()}")
       }
     )
+    VerticalSpacer(height = 5.dp)
     Text(
       buildAnnotatedString {
         withStyle(titleStyle) {
@@ -91,6 +99,7 @@ private fun Info(
         append(" ${data.crews.getProducerNames().joinToString()}")
       }
     )
+    VerticalSpacer(height = 5.dp)
     Text(
       buildAnnotatedString {
         withStyle(titleStyle) {
@@ -167,12 +176,14 @@ private fun CastItem(
   ) {
     Column(
       horizontalAlignment = Alignment.CenterHorizontally,
-      modifier = Modifier.width(100.dp)
+      modifier = Modifier
+        .width(100.dp)
         .padding(5.dp),
     ) {
       Img(
         img = data.profile,
-        modifier = Modifier.size(70.dp)
+        modifier = Modifier
+          .size(70.dp)
           .clip(CircleShape),
       )
       VerticalSpacer(height = 10.dp)
@@ -188,5 +199,61 @@ private fun CastItem(
         textAlign = TextAlign.Start,
       )
     }
+  }
+}
+
+
+
+@Composable
+private fun Photos(imgList: List<ImgData>) {
+  Column {
+    Text(
+      text = "Photos",
+      style = getStdBoldTextStyle(Size1),
+      modifier = Modifier.padding(start = 10.dp),
+    )
+    VerticalSpacer(height = 10.dp)
+    LazyRow(
+      horizontalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+      items(imgList.size) {
+        PhotoItem(
+          img = imgList[it],
+          modifier = Modifier.height(100.dp).run {
+            when(it) {
+              0 -> padding(start = 10.dp)
+              imgList.lastIndex -> padding(end = 10.dp)
+              else -> this
+            }
+          }
+        )
+      }
+    }
+  }
+}
+
+@SuppressLint("ModifierParameter")
+@Composable
+private fun PhotoItem(
+  img: ImgData,
+  modifier: Modifier = Modifier.height(80.dp),
+) {
+  val cardShape = RoundedCornerShape(10.dp)
+  Card(
+    shape = cardShape,
+    modifier = modifier
+      .aspectRatio(
+        stdLandscapeMoviePosterRatio
+      )
+      .shadow(
+        elevation = 5.dp,
+        shape = cardShape,
+      ),
+  ) {
+    Img(
+      img = img,
+      contentScale = ContentScale.Crop,
+      modifier = Modifier.fillMaxSize(),
+    )
   }
 }
