@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import sidev.app.android.moviecataloguecompose.ui.theme.GreenLight
 import sidev.app.android.moviecataloguecompose.ui.theme.Red
+import sidev.app.android.moviecataloguecompose.util.Const
 import sidev.app.android.moviecataloguecompose.util.formatScoreStr
 import sidev.app.android.moviecataloguecompose.util.getColorPointFromLinearGradient
 import sidev.app.android.moviecataloguecompose.util.getScoreColor
@@ -22,6 +23,7 @@ import sidev.app.android.moviecataloguecompose.util.getScoreColor
 @Composable
 fun ScoreItem(
   score: Number,
+  scale: Int = Const.SCORE_SCALE,
   modifier: Modifier = Modifier,
 ) {
   Surface(
@@ -39,7 +41,7 @@ fun ScoreItem(
           .align(Alignment.Center)
           .fillMaxSize()
           .padding(3.dp),
-        progress = score.toFloat() / 100,
+        progress = score.toFloat() / scale,
         color = getScoreColor(
           score = score,
         )

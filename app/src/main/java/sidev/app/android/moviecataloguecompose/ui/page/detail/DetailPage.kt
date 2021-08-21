@@ -21,19 +21,22 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import sidev.app.android.moviecataloguecompose.core.domain.model.MovieDetail
 import sidev.app.android.moviecataloguecompose.ui.theme.*
+import sidev.app.android.moviecataloguecompose.util.Const
 import sidev.app.android.moviecataloguecompose.util.defaulViewModel
 import sidev.app.android.moviecataloguecompose.util.maxSize
 
 @Composable
 fun DetailPage(
   movieId: Int,
+  movieType: String,
   navController: NavController,
+  viewModel: DetailViewModel = defaulViewModel()
 ) {
   MovieCatalogueComposeTheme {
-    val vm: DetailViewModel = defaulViewModel()
-    vm.movieId.value = movieId
+    viewModel.movieId.value = movieId
+    viewModel.movieType.value = movieType
 
-    val detail = vm.movieDetail.observeAsState().value
+    val detail = viewModel.movieDetail.observeAsState().value
     //val navController = rememberNavController()
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
@@ -44,7 +47,8 @@ fun DetailPage(
         },
       )
       Box(
-        modifier = Modifier.size(90.dp)
+        modifier = Modifier
+          .size(90.dp)
           .align(Alignment.TopStart)
           .padding(15.dp),
       ) {
@@ -65,7 +69,8 @@ fun DetailPage(
           imageVector = Icons.Rounded.ArrowBack,
           contentDescription = null,
           tint = Color.White,
-          modifier = Modifier.fillMaxSize()
+          modifier = Modifier
+            .fillMaxSize()
             .padding(15.dp)
             .align(Alignment.Center),
         )
@@ -120,6 +125,7 @@ private fun DetailMainLayout(
 private fun pagePreview() {
   DetailPage(
     movieId = 0,
+    movieType = Const.KEY_TV,
     navController = NavController(
       LocalContext.current
     ),

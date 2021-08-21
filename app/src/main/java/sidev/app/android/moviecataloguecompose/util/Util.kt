@@ -75,7 +75,7 @@ fun getColorPointFromLinearGradient(
 
 fun getScoreColor(
   score: Number,
-  scale: Int = 100,
+  scale: Int = Const.SCORE_SCALE,
 ): Color = getColorPointFromLinearGradient(
   first = Red,
   last = GreenLight,
@@ -96,15 +96,31 @@ val BoxWithConstraintsScope.maxSize
     height = maxHeight.value,
   )
 
-//TODO: ubah logika nya
-fun List<Crew>.getDirectorNames(): List<String> = map { it.name }
-//TODO: ubah logika nya
-fun List<Crew>.getProducerNames(): List<String> = map { it.name }
-
 
 fun Date.stdFormat(
   isMonthLong: Boolean = true,
 ): String {
   val sdf = SimpleDateFormat("dd ${if(isMonthLong) "MMMM" else "MMM"} yyyy", Locale.ENGLISH)
   return sdf.format(this)
+}
+
+val stdApiDateFormat: SimpleDateFormat by lazy {
+  SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+}
+
+
+fun <T> Sequence<T>.collectFirst(count: Int? = null): List<T> {
+  if(count == null) return toList()
+
+  val res = mutableListOf<T>()
+
+  val itr = iterator()
+  if(!itr.hasNext())
+    return res
+
+  for(i in 0 until count) {
+    if(!itr.hasNext()) break
+    res += itr.next()
+  }
+  return res
 }

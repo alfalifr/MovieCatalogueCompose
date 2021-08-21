@@ -17,6 +17,6 @@ object ViewModelDiSrcImpl: ViewModelDiSrc {
     RepoDi.src.movie()
   )
   override fun detail(): DetailViewModel = DetailViewModel(
-    RepoDi.src.movieDetail()
+    RepoDi.src.movie()
   )
 }

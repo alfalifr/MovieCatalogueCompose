@@ -38,7 +38,7 @@ fun DetailContentSection(detail: MovieDetail?) {
       if(detail.tagline != null) {
         Text(
           text = detail.tagline,
-          style = getStdBoldItalicTextStyle(Size2).copy(
+          style = getStdBoldItalicTextStyle(Size1).copy(
             color = TransOppositeDarkColor2
           ),
           modifier = Modifier.padding(
@@ -73,14 +73,16 @@ private fun Info(
     ),
   ) {
     val titleStyle = getStdBoldTextStyle().toSpanStyle()
-    Text(
-      buildAnnotatedString {
-        withStyle(titleStyle) {
-          append("Release date:")
+    data.movie.date?.also { date ->
+      Text(
+        buildAnnotatedString {
+          withStyle(titleStyle) {
+            append("Release date:")
+          }
+          append(" ${date.stdFormat()}")
         }
-        append(" ${data.movie.date.stdFormat()}")
-      }
-    )
+      )
+    }
     VerticalSpacer(height = 5.dp)
     Text(
       buildAnnotatedString {
@@ -166,6 +168,7 @@ private fun CastItem(
   data: Cast,
   modifier: Modifier = Modifier,
 ) {
+  /*
   val cardShape = RoundedCornerShape(10.dp)
   Card(
     modifier = modifier.shadow(
@@ -174,32 +177,34 @@ private fun CastItem(
     ),
     shape = cardShape,
   ) {
-    Column(
-      horizontalAlignment = Alignment.CenterHorizontally,
+  }
+   */
+  Column(
+    horizontalAlignment = Alignment.CenterHorizontally,
+    modifier = modifier
+      .width(100.dp)
+      .padding(5.dp),
+  ) {
+    Img(
+      img = data.profile,
+      contentScale = ContentScale.Crop,
       modifier = Modifier
-        .width(100.dp)
-        .padding(5.dp),
-    ) {
-      Img(
-        img = data.profile,
-        modifier = Modifier
-          .size(70.dp)
-          .clip(CircleShape),
-      )
-      VerticalSpacer(height = 10.dp)
-      Text(
-        modifier = Modifier.fillMaxWidth(),
-        text = data.name,
-        textAlign = TextAlign.Start,
-      )
-      VerticalSpacer(height = 10.dp)
-      Text(
-        modifier = Modifier.fillMaxWidth(),
-        text = data.character,
-        textAlign = TextAlign.Start,
-        color = TransOppositeDarkColor2,
-      )
-    }
+        .size(70.dp)
+        .clip(CircleShape),
+    )
+    VerticalSpacer(height = 10.dp)
+    Text(
+      modifier = Modifier.fillMaxWidth(),
+      text = data.name,
+      textAlign = TextAlign.Start,
+    )
+    VerticalSpacer(height = 10.dp)
+    Text(
+      modifier = Modifier.fillMaxWidth(),
+      text = data.character,
+      textAlign = TextAlign.Start,
+      color = TransOppositeDarkColor2,
+    )
   }
 }
 
