@@ -29,7 +29,10 @@ fun Navigation() {
         },
       ),
     ) {
-      DetailPage(movieId = it.arguments!!.getInt("id"))
+      DetailPage(
+        movieId = it.arguments!!.getInt("id"),
+        navController = navController,
+      )
     }
   }
 }
