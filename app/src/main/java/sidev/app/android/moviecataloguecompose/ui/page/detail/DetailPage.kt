@@ -59,11 +59,11 @@ fun DetailPage(
           .align(Alignment.TopStart)
           .padding(15.dp)
           .padding(top = topPadding)
-          .size(60.dp),
+          .size(50.dp),
       ) {
         Image(
           painter = ColorPainter(
-            BlackTrans5
+            TransOppositeDarkColor4
           ),
           contentDescription = null,
           modifier = Modifier
@@ -80,7 +80,7 @@ fun DetailPage(
           tint = Color.White,
           modifier = Modifier
             .fillMaxSize()
-            .padding(15.dp)
+            .padding(10.dp)
             .align(Alignment.Center),
         )
       }

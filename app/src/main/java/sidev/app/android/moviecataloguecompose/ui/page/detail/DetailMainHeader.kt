@@ -109,7 +109,7 @@ private fun MainBg(img: ImgData?, ) {
       modifier = Modifier.fillMaxSize()
         .background(
           Brush.verticalGradient(
-            .0f to if(isSystemInDarkTheme()) BlackTrans2 else WhiteTrans2,
+            .0f to TransFollowingDarkColor2,
             //.4f to WhiteTrans2,
             .6f to Color.Transparent,
             startY = imgHeight.value,
