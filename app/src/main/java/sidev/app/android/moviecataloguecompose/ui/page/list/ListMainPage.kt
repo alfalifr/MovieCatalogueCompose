@@ -6,6 +6,7 @@
 package sidev.app.android.moviecataloguecompose.ui.page.list
 
 import android.util.Log
+import androidx.compose.animation.core.SnapSpec
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -13,6 +14,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -57,13 +59,16 @@ fun ListMainPage(
         onItemClick = onItemClick,
       )
     }
-    val coroutineScope = MainScope()
+    val coroutineScope = rememberCoroutineScope()
     Row(
       horizontalArrangement = Arrangement.SpaceEvenly,
-      modifier = Modifier.fillMaxWidth()
+      modifier = Modifier
+        .fillMaxWidth()
         .background(BlackTrans4)
         .padding(
-          top = systemPadding?.calculateTopPadding()?.plus(10.dp) ?: 10.dp,
+          top = systemPadding
+            ?.calculateTopPadding()
+            ?.plus(10.dp) ?: 10.dp,
           bottom = 10.dp
         ),
     ) {
@@ -75,7 +80,11 @@ fun ListMainPage(
           if(viewModel.pageIndex.value != i) {
             viewModel.pageIndex.value = i
             coroutineScope.launch {
-              pagerState.scrollToPage(i)
+              pagerState.animateScrollToPage(
+                page = i,
+                animationSpec = SnapSpec(500),
+                initialVelocity = 10f,
+              )
             }
           }
         }

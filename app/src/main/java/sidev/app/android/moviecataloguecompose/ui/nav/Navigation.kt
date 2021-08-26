@@ -1,6 +1,7 @@
 package sidev.app.android.moviecataloguecompose.ui.nav
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -47,7 +48,9 @@ fun Navigation() {
     composable(
       route = Routes.ListMainPage.completeRoute,
     ) {
-      AppTheme { systemPadding ->
+      AppTheme(
+        statusBarColor = Color.Transparent,
+      ) { systemPadding ->
         ListMainPage(
           systemPadding = systemPadding,
         ) { movie ->
