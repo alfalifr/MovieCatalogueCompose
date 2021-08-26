@@ -33,58 +33,58 @@ fun DetailPage(
   movieId: Int,
   movieType: String,
   navController: NavController,
+  systemPadding: PaddingValues? = null,
   viewModel: DetailViewModel = defaulViewModel()
 ) {
-  AppTheme { systemPadding ->
 
-    viewModel.movieId.value = movieId
-    viewModel.movieType.value = movieType
+  viewModel.movieId.value = movieId
+  viewModel.movieType.value = movieType
 
-    val detail = viewModel.movieDetail.observeAsState().value
-    //val navController = rememberNavController()
+  val detail = viewModel.movieDetail.observeAsState().value
+  //val navController = rememberNavController()
 
-    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
-      DetailMainLayout(
-        detail = detail,
-        parentSize = maxSize.also {
-          Log.e("TAG", "DetailPage: constraints= $constraints maxSize= $maxSize", )
-        },
-        systemPadding = systemPadding,
-      )
+  BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+    DetailMainLayout(
+      detail = detail,
+      parentSize = maxSize.also {
+        Log.e("TAG", "DetailPage: constraints= $constraints maxSize= $maxSize", )
+      },
+      systemPadding = systemPadding,
+    )
 
-      val topPadding = systemPadding.calculateTopPadding()
+    val topPadding = systemPadding?.calculateTopPadding()
+      ?: 0.dp
 
-      Box(
+    Box(
+      modifier = Modifier
+        .align(Alignment.TopStart)
+        .padding(15.dp)
+        .padding(top = topPadding)
+        .size(50.dp),
+    ) {
+      Image(
+        painter = ColorPainter(
+          TransOppositeDarkColor4
+        ),
+        contentDescription = null,
         modifier = Modifier
-          .align(Alignment.TopStart)
-          .padding(15.dp)
-          .padding(top = topPadding)
-          .size(50.dp),
-      ) {
-        Image(
-          painter = ColorPainter(
-            TransOppositeDarkColor4
-          ),
-          contentDescription = null,
-          modifier = Modifier
-            .fillMaxSize()
-            .clip(CircleShape)
-            //.background(BlackTrans3)
-            .clickable {
-              navController.popBackStack()
-            },
-        )
-        Icon(
-          imageVector = Icons.Rounded.ArrowBack,
-          contentDescription = null,
-          tint = Color.White,
-          modifier = Modifier
-            .fillMaxSize()
-            .padding(10.dp)
-            .align(Alignment.Center),
-        )
-      }
+          .fillMaxSize()
+          .clip(CircleShape)
+          .clickable {
+            navController.popBackStack()
+          },
+      )
+      Icon(
+        imageVector = Icons.Rounded.ArrowBack,
+        contentDescription = null,
+        tint = Color.White,
+        modifier = Modifier
+          .fillMaxSize()
+          .padding(10.dp)
+          .align(Alignment.Center),
+      )
     }
+  }
 /*
     if(detail != null) {
       Column(
@@ -102,14 +102,13 @@ fun DetailPage(
       CircularProgressIndicator()
     }
  */
-  }
 }
 
 @Composable
 private fun DetailMainLayout(
   detail: MovieDetail?,
   parentSize: Size,
-  systemPadding: PaddingValues,
+  systemPadding: PaddingValues?,
 ) {
   Column(
     modifier = Modifier
@@ -126,7 +125,7 @@ private fun DetailMainLayout(
       parentSize = parentSize,
     )
     DetailContentSection(detail = detail)
-    VerticalSpacer(height = systemPadding.calculateBottomPadding())
+    VerticalSpacer(height = systemPadding?.calculateBottomPadding() ?: 0.dp)
   }
 }
 
@@ -140,5 +139,6 @@ private fun pagePreview() {
     navController = NavController(
       LocalContext.current
     ),
+    systemPadding = PaddingValues(0.dp)
   )
 }

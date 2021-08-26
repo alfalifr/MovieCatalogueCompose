@@ -5,12 +5,9 @@ import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Constraints
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.github.javafaker.Faker
-import sidev.app.android.moviecataloguecompose.core.domain.model.Crew
 import sidev.app.android.moviecataloguecompose.ui.page.ViewModelFactory
 import sidev.app.android.moviecataloguecompose.ui.theme.GreenLight
 import sidev.app.android.moviecataloguecompose.ui.theme.Red
@@ -124,3 +121,21 @@ fun <T> Sequence<T>.collectFirst(count: Int? = null): List<T> {
   }
   return res
 }
+
+
+/*
+fun NavGraphBuilder.composable(
+  route: String,
+  arguments: List<NamedNavArgument> = emptyList(),
+  deepLinks: List<NavDeepLink> = emptyList(),
+  themeBlock: @Composable (() -> PaddingValues)? = null,
+  content: @Composable (NavEntry) -> Unit
+) = androidComposable(
+  route = route,
+  arguments = arguments,
+  deepLinks = deepLinks,
+) {
+
+  content(NavEntry(it, ))
+}
+ */

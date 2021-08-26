@@ -22,6 +22,7 @@ object Const {
 
   const val KEY_ID = "id"
   const val KEY_TYPE = "type"
+  const val KEY_TYPE_INDEX = "type_index"
 
   const val POSITION_DIRECTOR = "directing"
   const val POSITION_PRODUCER = "production"

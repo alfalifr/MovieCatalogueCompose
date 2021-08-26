@@ -5,9 +5,7 @@ package sidev.app.android.moviecataloguecompose.ui.page.list
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -21,8 +19,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.insets.LocalWindowInsets
-import com.google.accompanist.insets.rememberInsetsPaddingValues
 import sidev.app.android.moviecataloguecompose.core.data.dummyMovieList
 import sidev.app.android.moviecataloguecompose.core.domain.model.Movie
 import sidev.app.android.moviecataloguecompose.ui.theme.*
@@ -36,36 +32,41 @@ import sidev.app.android.moviecataloguecompose.util.stdPortraitMoviePosterRatio
 
 @Composable
 fun ListPage(
-  movieType: String,
+  pageIndex: Int,
+  topPadding: Dp? = null,
+  bottomPadding: Dp? = null,
+  listState: LazyListState = rememberLazyListState(),
   viewModel: ListViewModel = defaulViewModel(),
-  onItemClick: ((Movie) -> Unit)? = null
+  onItemClick: ((Movie) -> Unit)? = null,
 ) {
-  AppTheme { systemPadding ->
+  //val topPadding = systemPadding?.calculateTopPadding()
+  //val bottomPadding = systemPadding?.calculateBottomPadding()
 
-    viewModel.movieType.value = movieType
-
-    val topPadding = systemPadding.calculateTopPadding()
-    val bottomPadding = systemPadding.calculateBottomPadding()
-
-    MovieList(
-      viewModel = viewModel,
-      topPadding = topPadding,
-      bottomPadding = bottomPadding,
-      onItemClick = onItemClick,
-    )
-  }
+  MovieList(
+    pageIndex = pageIndex,
+    viewModel = viewModel,
+    listState = listState,
+    topPadding = topPadding,
+    bottomPadding = bottomPadding,
+    onItemClick = onItemClick,
+  )
 }
 
 @Composable
 fun MovieList(
+  pageIndex: Int,
   viewModel: ListViewModel = defaulViewModel(),
+  listState: LazyListState = rememberLazyListState(),
   topPadding: Dp? = null,
   bottomPadding: Dp? = null,
-  onItemClick: ((Movie) -> Unit)? = null
+  onItemClick: ((Movie) -> Unit)? = null,
 ) {
   val dataList = viewModel.movieList.observeAsState().value
-  if(dataList != null) {
+  val vmPageIndex = viewModel.pageIndex.observeAsState().value
+
+  if(dataList != null && vmPageIndex == pageIndex) {
     LazyVerticalGrid(
+      state = listState,
       contentPadding = PaddingValues(
         top = topPadding ?: 0.dp,
         bottom = bottomPadding ?: 0.dp,

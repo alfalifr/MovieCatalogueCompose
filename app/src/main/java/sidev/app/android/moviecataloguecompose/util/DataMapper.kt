@@ -1,10 +1,13 @@
 package sidev.app.android.moviecataloguecompose.util
 
 import android.util.Log
+import androidx.annotation.StringRes
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toLowerCase
+import sidev.app.android.moviecataloguecompose.R
 import sidev.app.android.moviecataloguecompose.core.data.remote.model.*
 import sidev.app.android.moviecataloguecompose.core.domain.model.*
+import java.lang.IllegalArgumentException
 
 fun MovieTrendingResponse.toDomainModels(
   type: String,
@@ -109,3 +112,12 @@ fun List<Crew>.getProducerNames(): List<String> = asSequence()
   .filter { it.department.lowercase(java.util.Locale.ENGLISH) == Const.POSITION_PRODUCER }
   .map { it.name }
   .collectFirst(3)
+
+@StringRes
+fun getMovieTypeStrRes(index: Int): Int = when(index) {
+  0 -> R.string.tv_show
+  1 -> R.string.movie
+  else -> throw IllegalArgumentException(
+    "No such `index` of '$index' for movie type"
+  )
+}

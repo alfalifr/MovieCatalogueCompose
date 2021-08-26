@@ -2,6 +2,7 @@ package sidev.app.android.moviecataloguecompose.ui.nav
 
 import androidx.navigation.NavController
 import sidev.app.android.moviecataloguecompose.util.Const
+import java.lang.IllegalArgumentException
 
 sealed class Routes(val route: String) {
   object ListPage: Routes("ListPage") {
@@ -10,9 +11,19 @@ sealed class Routes(val route: String) {
 
     fun go(
       navController: NavController,
-      movieType: String,
+      movieTypeIndex: Int,
     ) {
-      navController.navigate("$route/$movieType")
+      if(movieTypeIndex !in listOf(0, 1))
+        throw IllegalArgumentException(
+          "No such `movieTypeIndex` of '$movieTypeIndex'"
+        )
+      navController.navigate("$route/$movieTypeIndex")
+    }
+  }
+
+  object ListMainPage: Routes("ListMainPage") {
+    public override fun go(navController: NavController) {
+      super.go(navController)
     }
   }
 

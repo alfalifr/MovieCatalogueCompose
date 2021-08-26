@@ -13,7 +13,16 @@ class ListViewModel(
   private val repo: MovieRepo,
 ): ViewModel() {
 
-  val movieType = MutableLiveData<String>()
+  val pageIndex = MutableLiveData<Int>(0)
+  private val movieType = Transformations.map(pageIndex) {
+    when(it) {
+      0 -> Const.KEY_TV
+      1 -> Const.KEY_MOVIE
+      else -> throw IllegalStateException(
+        "No such `pageIndex` of '$it'"
+      )
+    }
+  }
 
   val movieList: LiveData<List<Movie>> = MediatorLiveData<List<Movie>>().apply {
     addSource(movieType) {
