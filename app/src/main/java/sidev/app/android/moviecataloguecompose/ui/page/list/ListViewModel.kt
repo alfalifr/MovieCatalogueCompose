@@ -1,7 +1,6 @@
 package sidev.app.android.moviecataloguecompose.ui.page.list
 
 import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import sidev.app.android.moviecataloguecompose.core.domain.model.Movie
 import sidev.app.android.moviecataloguecompose.core.domain.repo.MovieRepo
@@ -13,8 +12,13 @@ class ListViewModel(
   private val repo: MovieRepo,
 ): ViewModel() {
 
-  val pageIndex = MutableLiveData<Int>(0)
-  private val movieType = Transformations.map(pageIndex) {
+  val topPadding = MutableLiveData(0f) // in Dp
+
+  val pageIndex = MutableLiveData(0)
+  private val movieType = Transformations.map(
+    Transformations.distinctUntilChanged(pageIndex)
+  ) {
+    (movieList as MediatorLiveData).value = null
     when(it) {
       0 -> Const.KEY_TV
       1 -> Const.KEY_MOVIE

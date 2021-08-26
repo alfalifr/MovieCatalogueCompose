@@ -1,10 +1,15 @@
 package sidev.app.android.moviecataloguecompose.util
 
+import android.content.Context
 import android.util.Log
+import android.util.TypedValue
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.github.javafaker.Faker
@@ -122,6 +127,16 @@ fun <T> Sequence<T>.collectFirst(count: Int? = null): List<T> {
   return res
 }
 
+
+val Int.pxToDp: Dp
+  @Composable
+  get() = (this / LocalContext.current.resources.displayMetrics.density).dp
+
+fun Int.pxToDp(context: Context): Dp =
+  (this / context.resources.displayMetrics.density).dp
+
+fun Int.pxToDpSimple(context: Context): Float =
+  this / context.resources.displayMetrics.density
 
 /*
 fun NavGraphBuilder.composable(
