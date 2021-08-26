@@ -28,7 +28,6 @@ import sidev.app.android.moviecataloguecompose.ui.theme.Yellow
 import sidev.app.android.moviecataloguecompose.ui.widget.DefaultLoading
 import sidev.app.android.moviecataloguecompose.util.defaulViewModel
 import sidev.app.android.moviecataloguecompose.util.getMovieTypeStrRes
-import sidev.app.android.moviecataloguecompose.util.pxToDp
 import sidev.app.android.moviecataloguecompose.util.pxToDpSimple
 
 @Composable

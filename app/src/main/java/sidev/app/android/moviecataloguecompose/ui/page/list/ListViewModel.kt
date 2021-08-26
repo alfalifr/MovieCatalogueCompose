@@ -18,6 +18,9 @@ class ListViewModel(
   private val movieType = Transformations.map(
     Transformations.distinctUntilChanged(pageIndex)
   ) {
+    if(it == null) {
+      return@map null
+    }
     (movieList as MediatorLiveData).value = null
     when(it) {
       0 -> Const.KEY_TV
@@ -34,6 +37,8 @@ class ListViewModel(
         viewModelScope.launch {
           value = getPopularList(it)
         }
+      } else {
+        value = null
       }
     }
   }
