@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.util.TypedValue
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
+import androidx.compose.foundation.lazy.LazyListLayoutInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -137,6 +138,35 @@ fun Int.pxToDp(context: Context): Dp =
 
 fun Int.pxToDpSimple(context: Context): Float =
   this / context.resources.displayMetrics.density
+
+
+val Dp.px: Float
+  @Composable
+  get() = TypedValue.applyDimension(
+    TypedValue.COMPLEX_UNIT_DIP,
+    value,
+    LocalContext.current.resources.displayMetrics
+  )
+
+fun Dp.px(context: Context): Float = TypedValue.applyDimension(
+  TypedValue.COMPLEX_UNIT_DIP,
+  value,
+  context.resources.displayMetrics
+)
+
+/*
+val LazyListLayoutInfo.scrollOffset: Int
+  get() {
+    var res = 0
+    var currentStartOffset = 0
+    //this.
+    for(item in visibleItemsInfo) {
+
+    }
+  }
+ */
+
+
 
 /*
 fun NavGraphBuilder.composable(

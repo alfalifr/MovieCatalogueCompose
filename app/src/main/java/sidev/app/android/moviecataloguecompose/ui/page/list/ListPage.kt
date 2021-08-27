@@ -61,7 +61,7 @@ fun MovieList(
   bottomPadding: Dp? = null,
   onItemClick: ((Movie) -> Unit)? = null,
 ) {
-  val dataList = viewModel.movieList.observeAsState().value
+  val dataList = viewModel.popularMovieList.observeAsState().value
   val vmPageIndex = viewModel.pageIndex.observeAsState().value
 
   if(dataList != null && vmPageIndex == pageIndex) {

@@ -15,6 +15,8 @@ object MovieRepoDummy: MovieRepo {
   override suspend fun getTvPopular(): List<Movie> = dummyMovieList
   override suspend fun getMoviePopular(): List<Movie> = dummyMovieList
 
+  override suspend fun getTrendingList(): List<Movie> = dummyMovieList
+
   override suspend fun getTvDetail(id: Int): MovieDetail = getDummyMovieDetail(id)
   override suspend fun getMovieDetail(id: Int): MovieDetail = getDummyMovieDetail(id)
 }
@@ -29,6 +31,8 @@ class MovieRepoImpl(
   override suspend fun getMoviePopular(): List<Movie> =
     movieApi.getMoviePopular().toDomainModels(Const.KEY_MOVIE)
 
+  override suspend fun getTrendingList(): List<Movie> =
+    movieApi.getTrendingList().toDomainModels()
 
   override suspend fun getTvDetail(id: Int): MovieDetail {
     val detail = movieApi.getTvDetail(id)

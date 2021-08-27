@@ -7,6 +7,8 @@ interface MovieRepo {
   suspend fun getTvPopular(): List<Movie>
   suspend fun getMoviePopular(): List<Movie>
 
+  suspend fun getTrendingList(): List<Movie>
+
   suspend fun getTvDetail(id: Int): MovieDetail
   suspend fun getMovieDetail(id: Int): MovieDetail
 }

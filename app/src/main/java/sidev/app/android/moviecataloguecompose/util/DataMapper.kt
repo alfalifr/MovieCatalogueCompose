@@ -1,16 +1,13 @@
 package sidev.app.android.moviecataloguecompose.util
 
-import android.util.Log
 import androidx.annotation.StringRes
-import androidx.compose.ui.text.intl.Locale
-import androidx.compose.ui.text.toLowerCase
 import sidev.app.android.moviecataloguecompose.R
 import sidev.app.android.moviecataloguecompose.core.data.remote.model.*
 import sidev.app.android.moviecataloguecompose.core.domain.model.*
 import java.lang.IllegalArgumentException
 
 fun MovieTrendingResponse.toDomainModels(
-  type: String,
+  type: String? = null,
 ): List<Movie> = results.map {
   Movie(
     id = it.id,
@@ -21,7 +18,9 @@ fun MovieTrendingResponse.toDomainModels(
     poster = RemoteImg(
       Const.ENDPOINT_IMG_300x450 +it.poster_path
     ),
-    type = type,
+    type = it.media_type ?: type ?: throw IllegalArgumentException(
+      "`type` of 'null' can't be passed to `Movie` instantiation"
+    ),
   )
 }
 

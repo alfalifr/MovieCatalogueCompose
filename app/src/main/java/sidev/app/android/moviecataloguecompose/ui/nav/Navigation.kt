@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
+import sidev.app.android.moviecataloguecompose.core.domain.model.Movie
 import sidev.app.android.moviecataloguecompose.ui.page.detail.DetailPage
 import sidev.app.android.moviecataloguecompose.ui.page.list.ListMainPage
 import sidev.app.android.moviecataloguecompose.ui.page.list.ListPage
@@ -51,15 +52,18 @@ fun Navigation() {
       AppTheme(
         statusBarColor = Color.Transparent,
       ) { systemPadding ->
-        ListMainPage(
-          systemPadding = systemPadding,
-        ) { movie ->
+        val onMovieItemClick = { movie: Movie ->
           Routes.DetailPage.go(
             navController = navController,
             movieId = movie.id,
             movieType = movie.type,
           )
         }
+        ListMainPage(
+          systemPadding = systemPadding,
+          onCarouselItemClick = onMovieItemClick,
+          onItemClick = onMovieItemClick,
+        )
       }
     }
     composable(
