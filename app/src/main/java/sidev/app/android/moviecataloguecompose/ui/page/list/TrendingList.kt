@@ -64,6 +64,7 @@ fun TrendingCarousel(
       Log.e("TAG", "TrendingCarousel: vpStartOffset= $vpStartOffset firstVisItemOffset= $firstVisItemOffset", )
        */
 
+      //TODO: `firstVisibleItemScrollOffset` only show offset of first visible item, not overall scroll offset
       val diffDp = listState.firstVisibleItemScrollOffset.pxToDp(
         LocalContext.current
       )
@@ -217,7 +218,7 @@ private fun CarouselIndicator(
         horizontalArrangement = Arrangement.spacedBy(itemSpace)
       ) {
         items(total) {
-          Log.e("TAG", "CarouselIndicator: activeIndex= $activeIndex it= $it it == activeIndex => ${it == activeIndex}", )
+          //Log.e("TAG", "CarouselIndicator: activeIndex= $activeIndex it= $it it == activeIndex => ${it == activeIndex}", )
           Card(
             backgroundColor = if(it == activeIndex) MaterialTheme.colors.primary
               else Color.White,
@@ -238,7 +239,7 @@ private fun CarouselIndicator(
             (maxWidth / 2) +
             (itemWidth / 2)
 
-          Log.e("TAG", "CarouselIndicator: total= $total activeIndex= $activeIndex offset= $offset maxWidth= $maxWidth itemWidth= $itemWidth", )
+          //Log.e("TAG", "CarouselIndicator: total= $total activeIndex= $activeIndex offset= $offset maxWidth= $maxWidth itemWidth= $itemWidth", )
 
           listState.animateScrollBy(
             value = offset.value

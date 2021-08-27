@@ -135,6 +135,7 @@ private fun TabBar(
     if(listState == null || systemTopPadding == null) {
       return@run this
     }
+    //TODO: `firstVisibleItemScrollOffset` only show offset of first visible item, not overall scroll offset
     val diffDp = listState.firstVisibleItemScrollOffset.pxToDp(context)
     plus(
       if(diffDp <= systemTopPadding) diffDp
